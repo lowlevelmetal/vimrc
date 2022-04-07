@@ -1,73 +1,78 @@
-"" Vim RC
-"" HC CR
 
-"" Fetch plugins
-call plug#begin('~/.vim/plugged')
+colorscheme desert
 
-" coc - Used for code completion
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Allow use of unicode characters
+set encoding=utf-8
 
-" Nerd Tree - Used for source tree navigation
-Plug 'preservim/nerdtree'
+" Add line numbers
+set number
 
-call plug#end()
-
-" " Coc configuration
+" TextEdit might fail if hidden is not set
 set hidden
 
-" Some servers have issues with backup files, see #649.
-set nobackup
-set nowritebackup
-"
-" " Give more space for displaying messages.
-set cmdheight=2
-"
-" " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" " delays and poor user experience.
-set updatetime=300
-"
-" " Don't pass messages to |ins-completion-menu|.
-set shortmess+=c
+" Tab/spacing configuration
+set tabstop=4
+set shiftwidth=4
 
-" use <tab> for trigger completion and navigate to the next complete item
+" More space for displaying messages
+set cmdheight=2
+
+set updatetime=300
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("nvim-0.5.0") || has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" add vim coc
+Plugin 'neoclide/coc.nvim', {'branch': 'release'}
+
+call vundle#end()
+filetype plugin indent on
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
 function! s:check_back_space() abort
   let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
 
-" Leader key set to " "
-let mapleader=" "
+" Keybind to run build
+nnoremap <C-x> :!./run.sh<CR>
+nnoremap <C-c> :!make -j4<CR>
 
-" Tab configuration
-noremap <leader>1 1gt
-noremap <leader>2 2gt
-noremap <leader>3 3gt
-noremap <leader>4 4gt
-noremap <leader>5 5gt
-noremap <leader>6 6gt
-noremap <leader>7 7gt
-noremap <leader>8 8gt
-noremap <leader>9 9gt
-noremap <leader>0 :tablast<cr>
+" Keybind to save
+nnoremap <silent> <C-s>  :update<CR>:w<CR>
 
-"" Nerd Tree configuration
-nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-n> :NERDTree<CR>
-nnoremap <C-t> :NERDTreeToggle<CR>
-nnoremap <C-f> :NERDTreeFind<CR>
-
-"" Indent Configuration
-filetype plugin indent on
-" show existing tab with 4 spaces width
-set tabstop=4
-" when indenting with '>', use 4 spaces width
-set shiftwidth=4
-" On pressing tab, insert 4 spaces
-set expandtab
 
 
