@@ -67,12 +67,19 @@ else
   inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
-" Keybind to run build
+" Keybind to run/build
 nnoremap <C-x> :!./run.sh<CR>
 nnoremap <C-c> :!make -j4<CR>
 
 " Keybind to save
-nnoremap <silent> <C-s>  :update<CR>:w<CR>
+nnoremap <silent><C-s> :<c-u>update<cr>
 
+" Keybind to leave visual and insert modes
+inoremap <C-z> <ESC>
+vnoremap <C-z> <ESC>
 
-
+" Jump keybinds
+nnoremap <C-k> 10k
+nnoremap <C-j> 10j
+inoremap <C-k> <ESC>ki
+inoremap <C-j> <ESC>ji
