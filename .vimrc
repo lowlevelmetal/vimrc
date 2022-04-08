@@ -81,5 +81,10 @@ vnoremap <C-z> <ESC>
 " Jump keybinds
 nnoremap <C-k> 10k
 nnoremap <C-j> 10j
-inoremap <C-k> <ESC>ki
-inoremap <C-j> <ESC>ji
+nnoremap <C-h> 5h
+nnoremap <C-l> 5l
+inoremap <C-h> <Left>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-l> <Right>
+
